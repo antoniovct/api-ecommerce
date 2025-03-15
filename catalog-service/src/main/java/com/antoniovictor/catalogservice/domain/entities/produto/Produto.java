@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Produto {
+    private Long id;
     private String nome;
     private String descricao;
     private Double preco;
@@ -17,13 +18,26 @@ public class Produto {
     @Override
     public String toString() {
         return "Produto{" +
-                "nome='" + nome + '\'' +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
                 ", descricao='" + descricao + '\'' +
                 ", preco=" + preco +
                 ", categoria=" + categoria +
                 ", marca='" + marca + '\'' +
                 ", informacoes=" + informacoes +
                 '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setPreco(Double preco) {
+        this.preco = preco;
     }
 
     public String getNome() {
@@ -74,8 +88,10 @@ public class Produto {
         this.informacoes = informacoes;
     }
 
+
     public Produto() {}
     public Produto(ProdutoBuilder builder) {
+        this.id = builder.id;
         this.nome = builder.nome;
         this.descricao = builder.descricao;
         this.preco = builder.preco;
@@ -85,6 +101,7 @@ public class Produto {
     }
 
     public static class ProdutoBuilder {
+        private Long id;
         private String nome;
         private String descricao;
         private Double preco;
@@ -92,6 +109,12 @@ public class Produto {
         private String marca;
         private Map<String, String> informacoes;
 
+        public ProdutoBuilder() {}
+
+        public ProdutoBuilder id(Long id) {
+            this.id = id;
+            return this;
+        }
         public ProdutoBuilder nome(String nome) {
             this.nome = nome;
             return this;
