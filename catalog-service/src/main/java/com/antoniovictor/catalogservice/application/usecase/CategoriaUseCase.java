@@ -30,4 +30,16 @@ public class CategoriaUseCase {
 
         return CategoriaMapper.categoriaToCategoriaResponseDto(categoriaGateway.buscarPorId(id));
     }
+
+    public CategoriaResponseDto atualizarCategoria(Long id, CategoriaRequestDto categoriaRequestDto) {
+        var categoria = categoriaGateway.buscarPorId(id);
+        if (categoriaRequestDto.nome() != null) {
+            categoria.setNome(categoriaRequestDto.nome());
+        }
+        return CategoriaMapper.categoriaToCategoriaResponseDto(categoriaGateway.salvar(categoria));
+    }
+
+    public void removerCategoriaPorId(Long id){
+        categoriaGateway.remover(id);
+    }
 }

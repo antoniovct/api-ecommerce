@@ -34,4 +34,14 @@ public class CategoriaController {
     public ResponseEntity<CategoriaResponseDto> buscarCategoriaPorId(@PathVariable Long id) {
         return ResponseEntity.ok(categoriaUseCase.buscarCategoriaPorId(id));
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<CategoriaResponseDto> atualizarCategoria(@PathVariable Long id, @RequestBody CategoriaRequestDto categoriaRequestDto) {
+        return ResponseEntity.ok(categoriaUseCase.atualizarCategoria(id, categoriaRequestDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public void removerCategoriaPorId(@PathVariable Long id){
+        categoriaUseCase.removerCategoriaPorId(id);
+    }
 }

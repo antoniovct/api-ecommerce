@@ -13,7 +13,7 @@ public class Produto {
     private Categoria categoria;
     private String marca;
     private Map<String, String> informacoes = new HashMap<>();
-
+    private Integer quantidadeEstoque;
 
     @Override
     public String toString() {
@@ -25,15 +25,20 @@ public class Produto {
                 ", categoria=" + categoria +
                 ", marca='" + marca + '\'' +
                 ", informacoes=" + informacoes +
+                ", quantidadeEstoque=" + quantidadeEstoque +
                 '}';
+    }
+
+    public Integer getQuantidadeEstoque() {
+        return quantidadeEstoque;
+    }
+
+    public void setQuantidadeEstoque(Integer quantidadeEstoque) {
+        this.quantidadeEstoque = quantidadeEstoque;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public void setPreco(Double preco) {
@@ -88,7 +93,6 @@ public class Produto {
         this.informacoes = informacoes;
     }
 
-
     public Produto() {}
     public Produto(ProdutoBuilder builder) {
         this.id = builder.id;
@@ -98,6 +102,7 @@ public class Produto {
         this.categoria = builder.categoria;
         this.marca = builder.marca;
         this.informacoes = builder.informacoes;
+        this.quantidadeEstoque = builder.quantidadeEstoque;
     }
 
     public static class ProdutoBuilder {
@@ -108,6 +113,7 @@ public class Produto {
         private Categoria categoria;
         private String marca;
         private Map<String, String> informacoes;
+        private Integer quantidadeEstoque;
 
         public ProdutoBuilder() {}
 
@@ -137,6 +143,10 @@ public class Produto {
         }
         public ProdutoBuilder informacoes(Map<String, String> informacoes) {
             this.informacoes = informacoes;
+            return this;
+        }
+        public ProdutoBuilder quantidadeEstoque(Integer quantidadeEstoque) {
+            this.quantidadeEstoque = quantidadeEstoque;
             return this;
         }
         public Produto build() {

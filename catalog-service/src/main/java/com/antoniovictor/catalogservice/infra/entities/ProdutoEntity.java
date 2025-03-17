@@ -1,6 +1,5 @@
 package com.antoniovictor.catalogservice.infra.entities;
 
-import com.antoniovictor.catalogservice.domain.entities.categoria.Categoria;
 import com.antoniovictor.catalogservice.infra.config.MapConvert;
 import jakarta.persistence.*;
 
@@ -16,31 +15,41 @@ public class ProdutoEntity {
     private String nome;
     private String descricao;
     private Double preco;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
     private CategoriaEntity categoria;
     private String marca;
     @Convert(converter = MapConvert.class)
     private Map<String, String> informacoes = new HashMap<>();
+    private Integer quantidadeEstoque;
 
     public ProdutoEntity() {
     }
     public ProdutoEntity(ProdutoEntityBuilder builder) {
+        this.id = builder.id;
         this.nome = builder.nome;
         this.descricao = builder.descricao;
         this.preco = builder.preco;
         this.categoria = builder.categoria;
         this.marca = builder.marca;
         this.informacoes = builder.informacoes;
+        this.quantidadeEstoque = builder.quantidadeEstoque;
     }
 
     public static class ProdutoEntityBuilder {
+        private Long id;
         private String nome;
         private String descricao;
         private Double preco;
         private CategoriaEntity categoria;
         private String marca;
         private Map<String, String> informacoes;
+        private Integer quantidadeEstoque;
 
+        public ProdutoEntityBuilder id(Long id) {
+            this.id = id;
+            return this;
+        }
         public ProdutoEntityBuilder nome(String nome) {
             this.nome = nome;
             return this;
@@ -63,6 +72,10 @@ public class ProdutoEntity {
         }
         public ProdutoEntityBuilder informacoes(Map<String, String> informacoes) {
             this.informacoes = informacoes;
+            return this;
+        }
+        public ProdutoEntityBuilder quantidadeEstoque(Integer quantidadeEstoque) {
+            this.quantidadeEstoque = quantidadeEstoque;
             return this;
         }
 
@@ -124,6 +137,14 @@ public class ProdutoEntity {
         this.marca = marca;
     }
 
+    public Integer getQuantidadeEstoque() {
+        return quantidadeEstoque;
+    }
+
+    public void setQuantidadeEstoque(Integer quantidadeEstoque) {
+        this.quantidadeEstoque = quantidadeEstoque;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof ProdutoEntity that)) return false;
@@ -145,6 +166,7 @@ public class ProdutoEntity {
                 ", categoria=" + categoria +
                 ", marca='" + marca + '\'' +
                 ", informacoes=" + informacoes +
+                ", quantidadeEstoque=" + quantidadeEstoque +
                 '}';
     }
 }

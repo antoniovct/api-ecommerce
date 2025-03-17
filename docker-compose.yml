@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: catalog
+
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - ecommerce_network
+
+volumes:
+  mysql-data:
+
+networks:
+  ecommerce_network:
+    driver: bridge

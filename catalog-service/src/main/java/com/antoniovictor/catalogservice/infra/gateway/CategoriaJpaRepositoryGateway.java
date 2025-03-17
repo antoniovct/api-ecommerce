@@ -2,8 +2,11 @@ package com.antoniovictor.catalogservice.infra.gateway;
 
 import com.antoniovictor.catalogservice.application.gateway.CategoriaGateway;
 import com.antoniovictor.catalogservice.domain.entities.categoria.Categoria;
+import com.antoniovictor.catalogservice.infra.entities.CategoriaEntity;
+import com.antoniovictor.catalogservice.infra.entities.ProdutoEntity;
 import com.antoniovictor.catalogservice.infra.mapper.CategoriaMapper;
 import com.antoniovictor.catalogservice.infra.persistence.CategoriaRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
@@ -20,6 +23,7 @@ public class CategoriaJpaRepositoryGateway implements CategoriaGateway {
     public Categoria salvar(Categoria categoria) {
         var categoriaEntity = CategoriaMapper.categoriaToCategoriaEntity(categoria);
         return CategoriaMapper.categoriaEntityToCategoria(categoriaRepository.save(categoriaEntity));
+
     }
 
     @Override
@@ -29,12 +33,13 @@ public class CategoriaJpaRepositoryGateway implements CategoriaGateway {
 
     @Override
     public Categoria buscarPorId(Long id) {
-        var categoriaEntity = categoriaRepository.getReferenceById(id);
+        var categoriaEntity = categoriaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada!"));
         return CategoriaMapper.categoriaEntityToCategoria(categoriaEntity);
     }
 
+    @Transactional
     @Override
     public void remover(Long id) {
-
+        categoriaRepository.deleteById(id);
     }
 }

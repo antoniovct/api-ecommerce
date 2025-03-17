@@ -30,8 +30,23 @@ public class ProdutoController {
         return ResponseEntity.ok(produtoUseCase.listarProdutos());
     }
 
+    @GetMapping("/categoria/{id}")
+    public ResponseEntity<List<ProdutoResponseDto>> listarProdutosPorCategoria(@PathVariable Long id) {
+        return ResponseEntity.ok(produtoUseCase.listarProdutosPorCategoria(id));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ProdutoResponseDto> buscarProdutoPorId(@PathVariable Long id) {
         return ResponseEntity.ok(produtoUseCase.buscarProdutoPorId(id));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ProdutoResponseDto> atualizarProduto(@PathVariable Long id, @RequestBody ProdutoRequestDto produtoRequestDto) {
+        return ResponseEntity.ok(produtoUseCase.atualizarProduto(id, produtoRequestDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public void removerProdutoPorId(@PathVariable Long id){
+        produtoUseCase.removerProdutoPorId(id);
     }
 }
