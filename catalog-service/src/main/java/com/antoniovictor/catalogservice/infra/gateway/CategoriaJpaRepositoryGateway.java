@@ -8,6 +8,7 @@ import com.antoniovictor.catalogservice.infra.mapper.CategoriaMapper;
 import com.antoniovictor.catalogservice.infra.persistence.CategoriaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
