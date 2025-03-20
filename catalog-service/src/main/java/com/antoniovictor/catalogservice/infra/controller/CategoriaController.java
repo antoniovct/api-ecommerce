@@ -46,7 +46,8 @@ public class CategoriaController {
     }
 
     @DeleteMapping("/{id}")
-    public void removerCategoriaPorId(@PathVariable Long id){
+    public ResponseEntity<Void> removerCategoriaPorId(@PathVariable Long id){
         categoriaUseCase.removerCategoriaPorId(id);
+        return ResponseEntity.noContent().build();
     }
 }
