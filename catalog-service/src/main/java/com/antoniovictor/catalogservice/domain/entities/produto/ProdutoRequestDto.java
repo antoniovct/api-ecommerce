@@ -19,7 +19,6 @@ public record ProdutoRequestDto(
         Long categoriaId,
         @NotBlank
         String marca,
-        @NotBlank
         Map<String,String> informacoes
 ) {
 }

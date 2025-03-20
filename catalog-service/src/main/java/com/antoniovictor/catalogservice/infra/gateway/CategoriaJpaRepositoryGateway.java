@@ -1,6 +1,8 @@
 package com.antoniovictor.catalogservice.infra.gateway;
 
 import com.antoniovictor.catalogservice.application.gateway.CategoriaGateway;
+import com.antoniovictor.catalogservice.domain.PageRequestDto;
+import com.antoniovictor.catalogservice.domain.PageResponse;
 import com.antoniovictor.catalogservice.domain.entities.categoria.Categoria;
 import com.antoniovictor.catalogservice.infra.entities.CategoriaEntity;
 import com.antoniovictor.catalogservice.infra.entities.ProdutoEntity;
@@ -9,6 +11,8 @@ import com.antoniovictor.catalogservice.infra.persistence.CategoriaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -30,6 +34,14 @@ public class CategoriaJpaRepositoryGateway implements CategoriaGateway {
     @Override
     public List<Categoria> listarTodos() {
         return categoriaRepository.findAll().stream().map(CategoriaMapper::categoriaEntityToCategoria).toList();
+    }
+
+    @Override
+    public PageResponse<Categoria> listarTodos(PageRequestDto pageRequest) {
+        Pageable pageable = PageRequest.of(pageRequest.pageNumber(), pageRequest.pageSize());
+        var categorias = categoriaRepository.findAll(pageable).map(CategoriaMapper::categoriaEntityToCategoria);
+        return new PageResponse<Categoria>(categorias.getNumber(),categorias.getSize(),categorias.getTotalPages(),
+                categorias.getTotalElements(),categorias.hasNext(),categorias.hasPrevious(),categorias.getContent());
     }
 
     @Override

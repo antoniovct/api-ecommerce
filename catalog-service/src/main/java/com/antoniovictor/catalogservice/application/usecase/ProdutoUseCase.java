@@ -2,6 +2,8 @@ package com.antoniovictor.catalogservice.application.usecase;
 
 import com.antoniovictor.catalogservice.application.gateway.CategoriaGateway;
 import com.antoniovictor.catalogservice.application.gateway.ProdutoGateway;
+import com.antoniovictor.catalogservice.domain.*;
+import com.antoniovictor.catalogservice.domain.entities.produto.Produto;
 import com.antoniovictor.catalogservice.domain.entities.produto.ProdutoRequestDto;
 import com.antoniovictor.catalogservice.domain.entities.produto.ProdutoResponseDto;
 import com.antoniovictor.catalogservice.infra.mapper.ProdutoMapper;
@@ -24,8 +26,8 @@ public class ProdutoUseCase {
 
     }
 
-    public List<ProdutoResponseDto> listarProdutos(){
-        return produtoGateway.listarTodos().stream().map(ProdutoMapper::produtoToProdutoResponseDto).toList();
+    public PageResponse<Produto> listarProdutos(PageRequestDto pageRequest, PageRequestFilters filters){
+        return produtoGateway.listarTodos(pageRequest,filters);
     }
 
     public List<ProdutoResponseDto> listarProdutosPorCategoria(Long categoriaId){

@@ -1,9 +1,14 @@
 package com.antoniovictor.catalogservice.infra.controller;
 
 import com.antoniovictor.catalogservice.application.usecase.ProdutoUseCase;
+import com.antoniovictor.catalogservice.domain.PageRequestDto;
+import com.antoniovictor.catalogservice.domain.PageRequestFilters;
+import com.antoniovictor.catalogservice.domain.PageResponse;
+import com.antoniovictor.catalogservice.domain.entities.produto.Produto;
 import com.antoniovictor.catalogservice.domain.entities.produto.ProdutoRequestDto;
 import com.antoniovictor.catalogservice.domain.entities.produto.ProdutoResponseDto;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -27,8 +32,8 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProdutoResponseDto>> listarProdutos() {
-        return ResponseEntity.ok(produtoUseCase.listarProdutos());
+    public ResponseEntity<PageResponse<Produto>> listarProdutos(Pageable pageable, @ModelAttribute PageRequestFilters filters) {
+        return ResponseEntity.ok(produtoUseCase.listarProdutos(new PageRequestDto(pageable.getPageNumber(), pageable.getPageSize()), filters));
     }
 
     @GetMapping("/categoria/{id}")
