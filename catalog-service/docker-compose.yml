@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  mysql-global:
+  mysql:
     image: mysql:latest
-    container_name: mysql-global
+    container_name: mysql-catalog
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root

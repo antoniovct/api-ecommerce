@@ -28,7 +28,6 @@ public class CategoriaUseCase {
     }
 
     public CategoriaResponseDto buscarCategoriaPorId(Long id) {
-
         return CategoriaMapper.categoriaToCategoriaResponseDto(categoriaGateway.buscarPorId(id));
     }
 
