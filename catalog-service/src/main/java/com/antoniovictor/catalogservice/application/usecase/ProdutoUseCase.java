@@ -6,9 +6,14 @@ import com.antoniovictor.catalogservice.domain.*;
 import com.antoniovictor.catalogservice.domain.entities.produto.Produto;
 import com.antoniovictor.catalogservice.domain.entities.produto.ProdutoRequestDto;
 import com.antoniovictor.catalogservice.domain.entities.produto.ProdutoResponseDto;
+import com.antoniovictor.catalogservice.domain.entities.produto.RequestSaidaProdutoDto;
+import com.antoniovictor.catalogservice.domain.exception.SaidaProdutoException;
 import com.antoniovictor.catalogservice.infra.mapper.ProdutoMapper;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProdutoUseCase {
     private final ProdutoGateway produtoGateway;
@@ -61,5 +66,19 @@ public class ProdutoUseCase {
 
     public void removerProdutoPorId(Long id){
         produtoGateway.remover(id);
+    }
+
+    public Map<Long,Boolean> saidaDeProduto(ProdutosPedidoDto produtosPedido) {
+        Map<Long,Boolean> produtos = new HashMap<>();
+        produtosPedido.produtos().forEach((id, quantidade) -> {
+            var produto = produtoGateway.buscarPorId(id);
+            try {
+                produto.saida(quantidade);
+                produtos.put(id, true);
+            } catch (SaidaProdutoException e) {
+                produtos.put(id, false);
+            }
+        });
+        return produtos;
     }
 }

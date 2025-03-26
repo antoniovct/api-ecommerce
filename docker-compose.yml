@@ -1,23 +1,24 @@
 version: '3.8'
 
 services:
-  mysql:
-    image: mysql:latest
-    container_name: mysql-container
+  rabbitmq:
+    image: rabbitmq:4.0-management
+    container_name: rabbitmq-ecommerce
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: catalog
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
 
     ports:
-      - "3306:3306"
+      - "5672:5672"
+      - "15672:15672"
     volumes:
-      - mysql-data:/var/lib/mysql
+      - rabbitmq-data:/var/lib/rabbitmq
     networks:
       - ecommerce_network
 
 volumes:
-  mysql-data:
+  rabbitmq-data:
 
 networks:
   ecommerce_network:

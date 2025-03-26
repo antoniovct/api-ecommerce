@@ -1,6 +1,7 @@
 package com.antoniovictor.catalogservice.domain.entities.produto;
 
 import com.antoniovictor.catalogservice.domain.entities.categoria.Categoria;
+import com.antoniovictor.catalogservice.domain.exception.SaidaProdutoException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +28,14 @@ public class Produto {
                 ", informacoes=" + informacoes +
                 ", quantidadeEstoque=" + quantidadeEstoque +
                 '}';
+    }
+
+    public void saida(int quantidade) throws SaidaProdutoException {
+        if (quantidade <= this.quantidadeEstoque) {
+            this.quantidadeEstoque -= quantidade;
+        } else {
+            throw new SaidaProdutoException("Quantidade do produto indisponível.");
+        }
     }
 
     public Integer getQuantidadeEstoque() {
