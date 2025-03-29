@@ -17,9 +17,9 @@ public class AmqpListener {
         this.produtoUseCase = produtoUseCase;
     }
 
-    @RabbitListener(queues = "queue.pedidos")
-    public void filaPedidos(@Payload ProdutosPedidoDto produtosPedido) {
-        var produtos = produtoUseCase.saidaDeProduto(produtosPedido);
-        rabbitTemplate.convertAndSend("catalog.ex", "estoque.reserva", produtos);
-    }
+//    @RabbitListener(queues = "queue.pedidos")
+//    public void filaPedidos(@Payload ProdutosPedidoDto produtosPedido) {
+//        var produtos = produtoUseCase.saidaDeProduto(produtosPedido);
+//        rabbitTemplate.convertAndSend("catalog.ex", "estoque.reserva", produtos);
+//    }
 }

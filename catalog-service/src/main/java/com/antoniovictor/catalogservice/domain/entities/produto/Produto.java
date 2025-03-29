@@ -50,6 +50,10 @@ public class Produto {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setPreco(Double preco) {
         this.preco = preco;
     }

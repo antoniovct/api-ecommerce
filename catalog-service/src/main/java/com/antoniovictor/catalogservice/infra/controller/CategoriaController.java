@@ -36,13 +36,13 @@ public class CategoriaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoriaResponseDto> buscarCategoriaPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(categoriaUseCase.buscarCategoriaPorId(id));
+    public ResponseEntity<CategoriaResponseDto> buscarCategoriaPorId(@PathVariable Long id) throws Exception {
+            return ResponseEntity.ok(categoriaUseCase.buscarCategoriaPorId(id));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<CategoriaResponseDto> atualizarCategoria(@PathVariable Long id, @RequestBody CategoriaRequestDto categoriaRequestDto) {
-        return ResponseEntity.ok(categoriaUseCase.atualizarCategoria(id, categoriaRequestDto));
+    public ResponseEntity<CategoriaResponseDto> atualizarCategoria(@PathVariable Long id, @RequestBody CategoriaRequestDto categoriaRequestDto) throws Exception {
+            return ResponseEntity.ok(categoriaUseCase.atualizarCategoria(id, categoriaRequestDto));
     }
 
     @DeleteMapping("/{id}")

@@ -8,6 +8,7 @@ import com.antoniovictor.catalogservice.domain.entities.produto.Produto;
 import com.antoniovictor.catalogservice.domain.entities.produto.ProdutoRequestDto;
 import com.antoniovictor.catalogservice.domain.entities.produto.ProdutoResponseDto;
 import com.antoniovictor.catalogservice.domain.entities.produto.RequestSaidaProdutoDto;
+import com.antoniovictor.catalogservice.domain.exception.ProdutoNaoEncontradoException;
 import com.antoniovictor.catalogservice.domain.exception.SaidaProdutoException;
 import jakarta.validation.Valid;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -28,10 +29,10 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<ProdutoResponseDto> cadastrarProduto(@RequestBody @Valid ProdutoRequestDto produtoRequestDto, UriComponentsBuilder uriBuilder) {
-        var produto = produtoUseCase.cadastrarProduto(produtoRequestDto);
-        var uri = uriBuilder.path("produto/{id}").buildAndExpand(produto.id()).toUri();
-        return ResponseEntity.created(uri).body(produto);
+    public ResponseEntity<ProdutoResponseDto> cadastrarProduto(@RequestBody @Valid ProdutoRequestDto produtoRequestDto, UriComponentsBuilder uriBuilder) throws Exception {
+            var produto = produtoUseCase.cadastrarProduto(produtoRequestDto);
+            var uri = uriBuilder.path("produto/{id}").buildAndExpand(produto.id()).toUri();
+            return ResponseEntity.created(uri).body(produto);
     }
 
     @GetMapping
@@ -39,23 +40,19 @@ public class ProdutoController {
         return ResponseEntity.ok(produtoUseCase.listarProdutos(new PageRequestDto(pageable.getPageNumber(), pageable.getPageSize()), filters));
     }
 
-    @GetMapping("/categoria/{id}")
-    public ResponseEntity<List<ProdutoResponseDto>> listarProdutosPorCategoria(@PathVariable Long id) {
-        return ResponseEntity.ok(produtoUseCase.listarProdutosPorCategoria(id));
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<ProdutoResponseDto> buscarProdutoPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(produtoUseCase.buscarProdutoPorId(id));
+    public ResponseEntity<ProdutoResponseDto> buscarProdutoPorId(@PathVariable Long id) throws ProdutoNaoEncontradoException {
+            return ResponseEntity.ok(produtoUseCase.buscarProdutoPorId(id));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ProdutoResponseDto> atualizarProduto(@PathVariable Long id, @RequestBody ProdutoRequestDto produtoRequestDto) {
-        return ResponseEntity.ok(produtoUseCase.atualizarProduto(id, produtoRequestDto));
+    public ResponseEntity<ProdutoResponseDto> atualizarProduto(@PathVariable Long id, @RequestBody ProdutoRequestDto produtoRequestDto) throws Exception {
+            return ResponseEntity.ok(produtoUseCase.atualizarProduto(id, produtoRequestDto));
     }
 
     @DeleteMapping("/{id}")
-    public void removerProdutoPorId(@PathVariable Long id){
+    public ResponseEntity<Void> removerProdutoPorId(@PathVariable Long id){
         produtoUseCase.removerProdutoPorId(id);
+        return ResponseEntity.noContent().build();
     }
 }

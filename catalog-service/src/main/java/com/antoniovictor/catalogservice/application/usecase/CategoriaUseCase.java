@@ -8,8 +8,6 @@ import com.antoniovictor.catalogservice.domain.entities.categoria.CategoriaReque
 import com.antoniovictor.catalogservice.domain.entities.categoria.CategoriaResponseDto;
 import com.antoniovictor.catalogservice.infra.mapper.CategoriaMapper;
 
-import java.util.List;
-
 public class CategoriaUseCase {
     public final CategoriaGateway categoriaGateway;
 
@@ -27,11 +25,11 @@ public class CategoriaUseCase {
         return categoriaGateway.listarTodos(pageRequest);
     }
 
-    public CategoriaResponseDto buscarCategoriaPorId(Long id) {
+    public CategoriaResponseDto buscarCategoriaPorId(Long id) throws Exception {
         return CategoriaMapper.categoriaToCategoriaResponseDto(categoriaGateway.buscarPorId(id));
     }
 
-    public CategoriaResponseDto atualizarCategoria(Long id, CategoriaRequestDto categoriaRequestDto) {
+    public CategoriaResponseDto atualizarCategoria(Long id, CategoriaRequestDto categoriaRequestDto) throws Exception {
         var categoria = categoriaGateway.buscarPorId(id);
         if (categoriaRequestDto.nome() != null) {
             categoria.setNome(categoriaRequestDto.nome());
