@@ -1,6 +1,6 @@
 package com.antoniovictor.orderservice.domain.entities.Pedido;
 
-import com.antoniovictor.orderservice.domain.ProdutoDto;
+import com.antoniovictor.orderservice.domain.ItemPedido;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,7 +10,7 @@ public class Pedido {
     private LocalDateTime data;
     private Status status;
     private String cliente;
-    private List<ProdutoDto> itens;
+    private List<ItemPedido> itens;
     private Double valorTotal;
 
     public Pedido(PedidoBuilder builder) {
@@ -27,7 +27,7 @@ public class Pedido {
         private LocalDateTime data;
         private Status status;
         private String cliente;
-        private List<ProdutoDto> itens;
+        private List<ItemPedido> itens;
         private Double valorTotal;
 
         public PedidoBuilder id(Long id) {
@@ -50,7 +50,7 @@ public class Pedido {
             return this;
         }
 
-        public PedidoBuilder itens(List<ProdutoDto> itens) {
+        public PedidoBuilder itens(List<ItemPedido> itens) {
             this.itens = itens;
             return this;
         }
