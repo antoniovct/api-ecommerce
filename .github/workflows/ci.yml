@@ -19,7 +19,10 @@ jobs:
       with:
         java-version: '21'
         distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+        
+    - name: Install dependencies
+      run: mvn install -DskipTests
+
+    - name: Run tests
+      run: mvn test
 
