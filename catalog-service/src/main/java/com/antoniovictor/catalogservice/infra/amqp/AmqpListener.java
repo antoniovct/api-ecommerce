@@ -45,5 +45,6 @@ public class AmqpListener {
         } else {
             rabbitTemplate.convertAndSend("catalog.ex", "estoque.insuficiente", new PedidoDto(pedidoDto.id(), produtosSemEstoque));
         }
+
     }
 }
