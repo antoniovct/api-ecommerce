@@ -11,6 +11,6 @@ public interface CategoriaGateway {
     Categoria salvar(Categoria categoria);
     List<Categoria> listarTodos();
     PageResponse<Categoria> listarTodos(PageRequestDto pageRequest);
-    Categoria buscarPorId(Long id) throws Exception;
+    Categoria buscarPorId(Long id);
     void remover(Long id);
 }

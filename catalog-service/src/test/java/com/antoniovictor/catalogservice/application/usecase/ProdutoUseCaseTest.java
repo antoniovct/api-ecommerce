@@ -6,12 +6,8 @@ import com.antoniovictor.catalogservice.domain.PageRequestDto;
 import com.antoniovictor.catalogservice.domain.PageRequestFilters;
 import com.antoniovictor.catalogservice.domain.PageResponse;
 import com.antoniovictor.catalogservice.domain.entities.categoria.Categoria;
-import com.antoniovictor.catalogservice.domain.entities.categoria.CategoriaRequestDto;
 import com.antoniovictor.catalogservice.domain.entities.produto.Produto;
 import com.antoniovictor.catalogservice.domain.entities.produto.ProdutoRequestDto;
-import com.antoniovictor.catalogservice.domain.entities.produto.ProdutoResponseDto;
-import com.antoniovictor.catalogservice.domain.exception.ProdutoNaoEncontradoException;
-import com.antoniovictor.catalogservice.infra.mapper.CategoriaMapper;
 import com.antoniovictor.catalogservice.infra.mapper.ProdutoMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,7 +17,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +42,7 @@ class ProdutoUseCaseTest {
     }
     @Test
     @DisplayName("Verifica se a resposta está correta e se não é nula.")
-    void cadastrarProduto() throws Exception {
+    void cadastrarProduto() {
         var categoriaSalva = new Categoria.CategoriaBuilder().id(1L).nome("Áudio").build();
         var produtoSalvo = new Produto.ProdutoBuilder().id(1L).categoria(categoriaSalva)
                 .descricao("Caixa de Som Portátil")
@@ -88,7 +83,7 @@ class ProdutoUseCaseTest {
 
     @Test
     @DisplayName("Verifica se a resposta do método não é nula, se é um objeto ProdutoResponseDto e se o método buscarPorId está sendo chamado.")
-    void buscarProdutoPorId() throws ProdutoNaoEncontradoException {
+    void buscarProdutoPorId(){
         var categoria = new Categoria.CategoriaBuilder().id(1L).nome("Áudio").build();
         var produtoSalvo = ProdutoMapper.produtoRequestDtoToProduto(produtoRequestDto,categoria);
         produtoSalvo.setId(1L);
@@ -104,7 +99,7 @@ class ProdutoUseCaseTest {
 
     @Test
     @DisplayName("Verifica se o nome do produto está sendo atualizado.")
-    void atualizarProduto() throws Exception {
+    void atualizarProduto() {
         var produtoRequest = new ProdutoRequestDto("Caixa Bluetooth", null, null, null, null, null, null);
         var categoria = new Categoria.CategoriaBuilder().id(1L).nome("Áudio").build();
         var produto = ProdutoMapper.produtoRequestDtoToProduto(produtoRequestDto,categoria);

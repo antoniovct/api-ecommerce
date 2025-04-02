@@ -6,15 +6,13 @@ import com.antoniovictor.catalogservice.domain.*;
 import com.antoniovictor.catalogservice.domain.entities.produto.Produto;
 import com.antoniovictor.catalogservice.domain.entities.produto.ProdutoRequestDto;
 import com.antoniovictor.catalogservice.domain.entities.produto.ProdutoResponseDto;
-import com.antoniovictor.catalogservice.domain.entities.produto.RequestSaidaProdutoDto;
-import com.antoniovictor.catalogservice.domain.exception.ProdutoNaoEncontradoException;
 import com.antoniovictor.catalogservice.domain.exception.SaidaProdutoException;
 import com.antoniovictor.catalogservice.infra.mapper.ProdutoMapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ProdutoUseCase {
     private final ProdutoGateway produtoGateway;
@@ -25,7 +23,7 @@ public class ProdutoUseCase {
         this.categoriaGateway = categoriaGateway;
     }
 
-    public ProdutoResponseDto cadastrarProduto(ProdutoRequestDto produtoRequestDto) throws Exception {
+    public ProdutoResponseDto cadastrarProduto(ProdutoRequestDto produtoRequestDto) {
         var categoria = categoriaGateway.buscarPorId(produtoRequestDto.categoriaId());
         var produto = ProdutoMapper.produtoRequestDtoToProduto(produtoRequestDto,categoria);
         return ProdutoMapper.produtoToProdutoResponseDto(produtoGateway.salvar(produto));
@@ -35,11 +33,11 @@ public class ProdutoUseCase {
         return produtoGateway.listarTodos(pageRequest,filters);
     }
 
-    public ProdutoResponseDto buscarProdutoPorId(Long id) throws ProdutoNaoEncontradoException {
+    public ProdutoResponseDto buscarProdutoPorId(Long id) {
         return ProdutoMapper.produtoToProdutoResponseDto(produtoGateway.buscarPorId(id));
     }
 
-    public ProdutoResponseDto atualizarProduto(Long id, ProdutoRequestDto produtoRequestDto) throws Exception {
+    public ProdutoResponseDto atualizarProduto(Long id, ProdutoRequestDto produtoRequestDto) {
         var produto = produtoGateway.buscarPorId(id);
         if (produtoRequestDto.nome() != null) {
             produto.setNome(produtoRequestDto.nome());
@@ -64,17 +62,4 @@ public class ProdutoUseCase {
         produtoGateway.remover(id);
     }
 
-    public Map<Long,Boolean> saidaDeProduto(ProdutosPedidoDto produtosPedido) {
-        Map<Long,Boolean> produtos = new HashMap<>();
-        produtosPedido.produtos().forEach((id, quantidade) -> {
-            try {
-                var produto = produtoGateway.buscarPorId(id);
-                produto.saida(quantidade);
-                produtos.put(id, true);
-            } catch (SaidaProdutoException | ProdutoNaoEncontradoException e) {
-                produtos.put(id, false);
-            }
-        });
-        return produtos;
-    }
 }

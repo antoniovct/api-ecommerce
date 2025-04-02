@@ -13,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.List;
 
@@ -69,7 +68,7 @@ class CategoriaUseCaseTest {
 
     @Test
     @DisplayName("Verifica se a resposta do método não é nula, se é um objeto CategoriaResponseDto e se o método buscarPorId está sendo chamado.")
-    void buscarCategoriaPorId() throws Exception {
+    void buscarCategoriaPorId(){
         var categoriaSalva = new Categoria.CategoriaBuilder().id(1L).nome("SmartPhones").build();
         var categoriaResponse = CategoriaMapper.categoriaToCategoriaResponseDto(categoriaSalva);
         when(categoriaGateway.buscarPorId(any(Long.class))).thenReturn(categoriaSalva);
@@ -83,7 +82,7 @@ class CategoriaUseCaseTest {
 
     @Test
     @DisplayName("Verifica se a categoria está sendo atualizada.")
-    void atualizarCategoria() throws Exception {
+    void atualizarCategoria() {
         var categoriaRequest = new CategoriaRequestDto("Áudio");
         var categoriaSalva = new Categoria.CategoriaBuilder().id(1L).nome("SmartPhones").build();
         categoriaSalva.setNome("Áudio");

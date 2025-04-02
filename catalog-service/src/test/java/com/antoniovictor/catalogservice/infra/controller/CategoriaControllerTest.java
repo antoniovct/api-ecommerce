@@ -5,8 +5,8 @@ import com.antoniovictor.catalogservice.domain.PageResponse;
 import com.antoniovictor.catalogservice.domain.entities.categoria.Categoria;
 import com.antoniovictor.catalogservice.domain.entities.categoria.CategoriaRequestDto;
 import com.antoniovictor.catalogservice.domain.entities.categoria.CategoriaResponseDto;
-import com.antoniovictor.catalogservice.domain.exception.CategoriaNaoEncontradaException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +79,7 @@ class CategoriaControllerTest {
     @Test
     @DisplayName("Verifica se o status da requisição é 404 Not Found")
     void buscarCategoriaPorIdCenario2() throws Exception {
-        when(categoriaUseCase.buscarCategoriaPorId(1L)).thenThrow(new CategoriaNaoEncontradaException("Categoria não encontrada"));
+        when(categoriaUseCase.buscarCategoriaPorId(1L)).thenThrow(new EntityNotFoundException("Categoria não encontrada"));
         mvc.perform(get("/categoria/1"))
                 .andExpect(status().isNotFound());
     }
@@ -98,7 +98,7 @@ class CategoriaControllerTest {
     @Test
     @DisplayName("Verifica se o status da requisição é 404 Not Found")
     void atualizarCategoriaCenario2() throws Exception {
-        when(categoriaUseCase.atualizarCategoria(1L, new CategoriaRequestDto("Categoria Atualizada"))).thenThrow(new CategoriaNaoEncontradaException("Categoria não encontrada"));
+        when(categoriaUseCase.atualizarCategoria(1L, new CategoriaRequestDto("Categoria Atualizada"))).thenThrow(new EntityNotFoundException("Categoria não encontrada"));
         mvc.perform(patch("/categoria/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new CategoriaRequestDto("Categoria Atualizada"))))

@@ -7,17 +7,11 @@ import com.antoniovictor.catalogservice.domain.PageResponse;
 import com.antoniovictor.catalogservice.domain.entities.produto.Produto;
 import com.antoniovictor.catalogservice.domain.entities.produto.ProdutoRequestDto;
 import com.antoniovictor.catalogservice.domain.entities.produto.ProdutoResponseDto;
-import com.antoniovictor.catalogservice.domain.entities.produto.RequestSaidaProdutoDto;
-import com.antoniovictor.catalogservice.domain.exception.ProdutoNaoEncontradoException;
-import com.antoniovictor.catalogservice.domain.exception.SaidaProdutoException;
 import jakarta.validation.Valid;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("produto")
@@ -29,7 +23,7 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<ProdutoResponseDto> cadastrarProduto(@RequestBody @Valid ProdutoRequestDto produtoRequestDto, UriComponentsBuilder uriBuilder) throws Exception {
+    public ResponseEntity<ProdutoResponseDto> cadastrarProduto(@RequestBody @Valid ProdutoRequestDto produtoRequestDto, UriComponentsBuilder uriBuilder) {
             var produto = produtoUseCase.cadastrarProduto(produtoRequestDto);
             var uri = uriBuilder.path("produto/{id}").buildAndExpand(produto.id()).toUri();
             return ResponseEntity.created(uri).body(produto);
@@ -41,12 +35,12 @@ public class ProdutoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProdutoResponseDto> buscarProdutoPorId(@PathVariable Long id) throws ProdutoNaoEncontradoException {
+    public ResponseEntity<ProdutoResponseDto> buscarProdutoPorId(@PathVariable Long id){
             return ResponseEntity.ok(produtoUseCase.buscarProdutoPorId(id));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ProdutoResponseDto> atualizarProduto(@PathVariable Long id, @RequestBody ProdutoRequestDto produtoRequestDto) throws Exception {
+    public ResponseEntity<ProdutoResponseDto> atualizarProduto(@PathVariable Long id, @RequestBody ProdutoRequestDto produtoRequestDto){
             return ResponseEntity.ok(produtoUseCase.atualizarProduto(id, produtoRequestDto));
     }
 

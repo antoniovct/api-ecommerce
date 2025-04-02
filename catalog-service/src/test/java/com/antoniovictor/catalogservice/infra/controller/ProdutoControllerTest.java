@@ -6,8 +6,8 @@ import com.antoniovictor.catalogservice.domain.entities.categoria.Categoria;
 import com.antoniovictor.catalogservice.domain.entities.produto.Produto;
 import com.antoniovictor.catalogservice.domain.entities.produto.ProdutoRequestDto;
 import com.antoniovictor.catalogservice.domain.entities.produto.ProdutoResponseDto;
-import com.antoniovictor.catalogservice.domain.exception.ProdutoNaoEncontradoException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -79,7 +78,7 @@ class ProdutoControllerTest {
     @Test
     @DisplayName("Verifica se o status da requisição é 404 Not Found")
     void buscarProdutoPorIdCenario2() throws Exception {
-        when(produtoUseCase.buscarProdutoPorId(1L)).thenThrow(new ProdutoNaoEncontradoException("Produto não encontrado"));
+        when(produtoUseCase.buscarProdutoPorId(1L)).thenThrow(new EntityNotFoundException("Produto não encontrado"));
         mvc.perform(get("/produto/1"))
                 .andExpect(status().isNotFound());
     }
@@ -99,7 +98,7 @@ class ProdutoControllerTest {
     @Test
     @DisplayName("Verifica se o status da requisição é 404 Not Found")
     void atualizarProdutoCenario2() throws Exception {
-        when(produtoUseCase.atualizarProduto(anyLong(), any(ProdutoRequestDto.class))).thenThrow(new ProdutoNaoEncontradoException("Produto não encontrado"));
+        when(produtoUseCase.atualizarProduto(anyLong(), any(ProdutoRequestDto.class))).thenThrow(new EntityNotFoundException("Produto não encontrado"));
         mvc.perform(patch("/produto/1")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(new ProdutoRequestDto("Produto Atualizado", "Descricao Atualizada", 15.0, 10, 1L, null, new HashMap<>()))))

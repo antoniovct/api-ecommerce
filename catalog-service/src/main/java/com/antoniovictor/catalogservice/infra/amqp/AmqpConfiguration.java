@@ -14,8 +14,13 @@ import org.springframework.context.annotation.Configuration;
 public class AmqpConfiguration {
 
     @Bean
-    public Queue queueEstoque() {
-        return QueueBuilder.durable("queue.estoque").build();
+    public Queue estoqueReservadoQueue() {
+        return QueueBuilder.durable("estoque.reservado").build();
+    }
+
+    @Bean
+    public Queue estoqueInsuficienteQueue() {
+        return QueueBuilder.durable("estoque.insuficiente").build();
     }
 
     @Bean
@@ -46,7 +51,12 @@ public class AmqpConfiguration {
     }
     
     @Bean
-    public Binding binding() {
-        return BindingBuilder.bind(queueEstoque()).to(catalogExchange()).with("estoque.reserva").noargs();
+    public Binding bindingEstoqueReservadoQueue() {
+        return BindingBuilder.bind(estoqueReservadoQueue()).to(catalogExchange()).with("estoque.reservado").noargs();
+    }
+
+    @Bean
+    public Binding bindingEstoqueInsuficienteQueue() {
+        return BindingBuilder.bind(estoqueInsuficienteQueue()).to(catalogExchange()).with("estoque.insuficiente").noargs();
     }
 }
