@@ -4,9 +4,9 @@ import com.antoniovictor.catalogservice.application.gateway.CategoriaGateway;
 import com.antoniovictor.catalogservice.domain.PageRequestDto;
 import com.antoniovictor.catalogservice.domain.PageResponse;
 import com.antoniovictor.catalogservice.domain.entities.categoria.Categoria;
-import com.antoniovictor.catalogservice.domain.exception.CategoriaNaoEncontradaException;
 import com.antoniovictor.catalogservice.infra.mapper.CategoriaMapper;
 import com.antoniovictor.catalogservice.infra.persistence.CategoriaRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,8 +42,8 @@ public class CategoriaJpaRepositoryGateway implements CategoriaGateway {
     }
 
     @Override
-    public Categoria buscarPorId(Long id) throws CategoriaNaoEncontradaException {
-        var categoriaEntity = categoriaRepository.findById(id).orElseThrow(() -> new CategoriaNaoEncontradaException("Categoria não encontrada!"));
+    public Categoria buscarPorId(Long id) {
+        var categoriaEntity = categoriaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada!"));
         return CategoriaMapper.categoriaEntityToCategoria(categoriaEntity);
     }
 

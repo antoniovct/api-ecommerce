@@ -41,7 +41,7 @@ public class CategoriaController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<CategoriaResponseDto> atualizarCategoria(@PathVariable Long id, @RequestBody CategoriaRequestDto categoriaRequestDto) throws Exception {
+    public ResponseEntity<CategoriaResponseDto> atualizarCategoria(@PathVariable Long id, @RequestBody CategoriaRequestDto categoriaRequestDto){
             return ResponseEntity.ok(categoriaUseCase.atualizarCategoria(id, categoriaRequestDto));
     }
 

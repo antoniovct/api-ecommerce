@@ -1,7 +1,6 @@
 package com.antoniovictor.catalogservice.infra.error;
 
-import com.antoniovictor.catalogservice.domain.exception.CategoriaNaoEncontradaException;
-import com.antoniovictor.catalogservice.domain.exception.ProdutoNaoEncontradoException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,13 +18,8 @@ public class HandlingException {
         return ResponseEntity.badRequest().body(body);
     }
 
-    @ExceptionHandler(ProdutoNaoEncontradoException.class)
-    public ResponseEntity<Void> erroProdutoNaoEncontrado() {
-        return ResponseEntity.notFound().build();
-    }
-
-    @ExceptionHandler(CategoriaNaoEncontradaException.class)
-    public ResponseEntity<Void> erroCategoriaNaoEncontrada() {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<Void> erroEntityNotFound() {
         return ResponseEntity.notFound().build();
     }
 

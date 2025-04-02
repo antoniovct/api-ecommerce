@@ -25,11 +25,11 @@ public class CategoriaUseCase {
         return categoriaGateway.listarTodos(pageRequest);
     }
 
-    public CategoriaResponseDto buscarCategoriaPorId(Long id) throws Exception {
+    public CategoriaResponseDto buscarCategoriaPorId(Long id) {
         return CategoriaMapper.categoriaToCategoriaResponseDto(categoriaGateway.buscarPorId(id));
     }
 
-    public CategoriaResponseDto atualizarCategoria(Long id, CategoriaRequestDto categoriaRequestDto) throws Exception {
+    public CategoriaResponseDto atualizarCategoria(Long id, CategoriaRequestDto categoriaRequestDto){
         var categoria = categoriaGateway.buscarPorId(id);
         if (categoriaRequestDto.nome() != null) {
             categoria.setNome(categoriaRequestDto.nome());

@@ -6,9 +6,9 @@ import com.antoniovictor.catalogservice.domain.PageRequestDto;
 import com.antoniovictor.catalogservice.domain.PageRequestFilters;
 import com.antoniovictor.catalogservice.domain.PageResponse;
 import com.antoniovictor.catalogservice.domain.entities.produto.Produto;
-import com.antoniovictor.catalogservice.domain.exception.ProdutoNaoEncontradoException;
 import com.antoniovictor.catalogservice.infra.mapper.ProdutoMapper;
 import com.antoniovictor.catalogservice.infra.persistence.ProdutoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -47,8 +47,8 @@ public class ProdutoJpaRepositoryGateway implements ProdutoGateway {
     }
 
     @Override
-    public Produto buscarPorId(Long id) throws ProdutoNaoEncontradoException {
-        var produtoEntity = produtoRepository.findById(id).orElseThrow(() -> new ProdutoNaoEncontradoException("Produto não encontrado!"));
+    public Produto buscarPorId(Long id) {
+        var produtoEntity = produtoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Produto não encontrado!"));
         return ProdutoMapper.produtoEntityToProduto(produtoEntity);
     }
 
